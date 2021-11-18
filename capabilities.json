@@ -3,7 +3,7 @@
     {
       "displayName": "Values",
       "kind": "GroupingOrMeasure",
-      "name": "Values"
+      "name": "dataset"
     }
   ],
   "dataViewMappings": [
@@ -15,7 +15,7 @@
               "select": [
                 {
                   "for": {
-                    "in": "Values"
+                    "in": "dataset"
                   }
                 }
               ],

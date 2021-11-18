@@ -80,6 +80,8 @@ export class Visual implements IVisual {
     public onResizing(finalViewport: IViewport): void {
         this.imageDiv.style.height = finalViewport.height + "px";
         this.imageDiv.style.width = finalViewport.width + "px";
+        this.imageElement.style.height = finalViewport.height + "px";
+        this.imageElement.style.width = finalViewport.width + "px";
     }
 
     private static parseSettings(dataView: DataView): VisualSettings {
