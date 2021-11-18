@@ -9,4 +9,10 @@ lines(x, y, col="green") # draw line plot
 
 library(corrplot)
 corr <- cor(dataset)
-corrplot(corr, method="circle", order = "hclust")
+
+if (!exists("settings_method"))
+{
+    settings_method = "circle";
+}
+
+corrplot(corr, method=settings_method, order = "hclust")
