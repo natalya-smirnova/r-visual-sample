@@ -30,10 +30,10 @@ import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructor
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
 import IVisual = powerbi.extensibility.visual.IVisual;
 import EnumerateVisualObjectInstancesOptions = powerbi.EnumerateVisualObjectInstancesOptions;
-import VisualObjectInstance = powerbi.VisualObjectInstance;
 import DataView = powerbi.DataView;
 import IViewport = powerbi.IViewport;
-import VisualObjectInstanceEnumerationObject = powerbi.VisualObjectInstanceEnumerationObject;
+
+import VisualObjectInstanceEnumeration = powerbi.VisualObjectInstanceEnumeration;
 
 import { VisualSettings } from "./settings";
 export class Visual implements IVisual {
@@ -80,6 +80,8 @@ export class Visual implements IVisual {
     public onResizing(finalViewport: IViewport): void {
         this.imageDiv.style.height = finalViewport.height + "px";
         this.imageDiv.style.width = finalViewport.width + "px";
+        this.imageElement.style.height = finalViewport.height + "px";
+        this.imageElement.style.width = finalViewport.width + "px";
     }
 
     private static parseSettings(dataView: DataView): VisualSettings {
@@ -89,8 +91,23 @@ export class Visual implements IVisual {
      * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
      * objects and properties you want to expose to the users in the property pane.
      */
-    public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions):
-        VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
-        return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+    
+    public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstanceEnumeration {
+        let objectName = options.objectName;
+        let objectEnumeration = [];
+
+        switch (objectName) {
+            case 'settings':
+                objectEnumeration.push({
+                    objectName: objectName,
+                    properties: {
+                        method: this.settings.settings.method,
+                     },
+                    selector: null
+                });
+                break;
+        };
+
+        return objectEnumeration;
     }
 }
